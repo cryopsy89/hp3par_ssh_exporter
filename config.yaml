@@ -12,8 +12,8 @@ cache:
 monitoring:
   default_life_threshold: 80
   script_timeout: 60
-  storage_user: "codmonitor"
-  storage_password: "1qaz@WSX"
+  storage_user: "your_login_here"
+  storage_password: "your_passwd_here"
   zabbix_host_prefix: "storage"
 
 logging:

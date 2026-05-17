@@ -4,7 +4,7 @@
 set -e
 
 IMAGE_NAME="hp-primera-monitor"
-IMAGE_TAG="v1.0.0"
+IMAGE_TAG="v1.1.0"
 TAR_FILE="hp-primera-monitor.tar"
 
 echo "Собираем Docker образ..."

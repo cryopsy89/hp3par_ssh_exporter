@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 RUN mkdir -p logs
 
-# Копируем конфиг по умолчанию (будет перезаписан если смонтировать volume)
 COPY config.yaml ./
 COPY requirements.txt .
 COPY lightweight_monitoring.py .
