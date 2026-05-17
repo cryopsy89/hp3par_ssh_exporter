@@ -1,0 +1,87 @@
+# HP 3PAR / Primera Prometheus Exporter
+
+Prometheus exporter for HPE 3PAR and Primera storage systems.
+Collects metrics via SSH using the HPE CLI and exposes them
+in Prometheus format.
+
+## Why this exists
+
+HPE 3PAR and Primera have no official Prometheus exporter.
+This tool fills that gap by connecting over SSH, parsing CLI output,
+and exposing storage metrics for Grafana dashboards and alerting.
+
+## Features
+
+- Collects volume, disk, node, port, and system metrics
+- SSH-based — no additional agents required on the storage system
+- Two modes: full monitoring and lightweight (low-overhead) polling
+- Configurable via YAML
+- Docker-ready
+
+## Metrics exposed
+
+| Metric | Description |
+|---|---|
+| `hp3par_system_info` | System name, model, serial |
+| `hp3par_node_state` | Controller node status |
+| `hp3par_disk_state` | Physical disk status |
+| `hp3par_volume_size_bytes` | Allocated volume size |
+| `hp3par_port_state` | FC/iSCSI port status |
+
+## Quick start
+
+```bash
+git clone https://github.com/cryopsy89/hp3par_ssh_exporter
+cd hp3par_ssh_exporter
+cp config.yaml.example config.yaml
+# Edit config.yaml with your 3PAR credentials
+docker compose up -d
+```
+
+## Configuration
+
+```yaml
+# config.yaml
+storage:
+  host: 192.168.1.100
+  username: monitor_user
+  password: secret
+  port: 22
+
+exporter:
+  port: 9116
+  poll_interval: 60
+```
+
+## Running without Docker
+
+```bash
+pip install -r requirements.txt
+python hp3_primera_monitoring.py
+```
+
+For low-overhead environments:
+```bash
+python lightweight_monitoring.py
+```
+
+## Prometheus scrape config
+
+```yaml
+scrape_configs:
+  - job_name: 'hp3par'
+    static_configs:
+      - targets: ['localhost:9116']
+```
+
+## Tech stack
+
+Python · Prometheus client · Paramiko (SSH) · Docker
+
+## Background
+
+Built to solve a real production problem: monitoring HPE 3PAR
+storage in an enterprise environment where Zabbix had limitations
+and no Prometheus exporter existed. The lightweight mode was
+developed specifically to avoid overloading older 3PAR arrays
+with frequent SSH sessions.
