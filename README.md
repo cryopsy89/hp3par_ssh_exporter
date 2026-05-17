@@ -1,4 +1,4 @@
-# HP 3PAR / Primera Prometheus Exporter
+# HP 3PAR / Primera Exporter
 
 Prometheus exporter for HPE 3PAR and Primera storage systems.
 Collects metrics via SSH using the HPE CLI and exposes them
@@ -38,50 +38,11 @@ cp config.yaml.example config.yaml
 docker compose up -d
 ```
 
-## Configuration
-
-```yaml
-# config.yaml
-storage:
-  host: 192.168.1.100
-  username: monitor_user
-  password: secret
-  port: 22
-
-exporter:
-  port: 9116
-  poll_interval: 60
-```
-
-## Running without Docker
-
-```bash
-pip install -r requirements.txt
-python hp3_primera_monitoring.py
-```
-
 For low-overhead environments:
 ```bash
 python lightweight_monitoring.py
 ```
 
-## Prometheus scrape config
-
-```yaml
-scrape_configs:
-  - job_name: 'hp3par'
-    static_configs:
-      - targets: ['localhost:9116']
-```
-
 ## Tech stack
 
-Python · Prometheus client · Paramiko (SSH) · Docker
-
-## Background
-
-Built to solve a real production problem: monitoring HPE 3PAR
-storage in an enterprise environment where Zabbix had limitations
-and no Prometheus exporter existed. The lightweight mode was
-developed specifically to avoid overloading older 3PAR arrays
-with frequent SSH sessions.
+Python · Paramiko (SSH) · Docker
